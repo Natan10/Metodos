@@ -1,0 +1,27 @@
+#Método Ponto fixo
+
+def phi(x):
+    return (x**3)/9 + (1/3)
+
+def fc(x):
+    return x**3 - 9*x + 3
+
+def ponto_fixo(xo,e,maxiter):
+    if abs(fc(xo)) < e:
+        return xo
+    else:
+        k = 1
+        print("k\t  x\t\t  fx\t\t")
+       
+        while(k<maxiter):
+             x = phi(xo)   
+             print("%d\t%e\t%e" % (k, x, fc(x)))
+             if abs(fc(x)) < e:
+                    return x
+             elif abs(x-xo) < e:
+                    return x
+             else:
+                    xo = x
+                    k += 1
+
+ 
