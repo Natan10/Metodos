@@ -1,0 +1,68 @@
+#Método Gauss-Seidel
+import numpy as np
+
+#calcula norma l-infinito
+def norma(v,x):
+    tam = len(v)
+    norma = []
+    maxD = []
+    for i in range(0,tam):
+        norma.append(abs(v[i]-x[i]))
+        maxD.append(abs(v[i]))
+    return max(norma)/max(maxD)
+    
+#Criterio das linhas
+def linhas(A):
+    tam = len(A)
+    k =np.zeros(tam)
+    flag = False
+
+    for i in range(tam):
+        for j in range(tam):
+              if i !=j:
+                k[i] += A[i][j]
+     
+    for i in range(tam):
+        if A[i][i] > k[i]:
+            flag = True
+               
+    return flag
+    
+def seidel(A, b,epsilon, iterMax, xInit=True):
+    tam = len(A)
+    xi = np.zeros(tam,dtype = float)
+    xf = np.zeros(tam,dtype = float)
+    
+    if xInit==False:
+        #inicializar o vetor x 
+        for i in range(tam):
+            xi[i] = b[i]/A[i][i]
+            
+    #transformar A em C
+    C = np.zeros((tam,tam),dtype = float)
+    for l in range(tam):
+        for c in range(tam):
+            if l == c:
+                C[l][c] = 0
+            else:
+                if A[l][l]!=0:
+                    C[l][c] = -(A[l][c])/A[l][l]
+     
+    k = 0
+    while True:
+        aux = np.array(xi)
+        for i in range(tam):
+            for j in range(tam):
+                if i == j:
+                    xf[i] += b[i]/A[i][i]
+                xf[i] += aux[j]*C[i][j] 
+                aux[i] = xf[i] 
+        if(norma(xf,xi) < epsilon):
+            return xf,k
+            break
+        elif(k >=iterMax):
+            break
+        else:
+            xi = np.array(xf)
+            xf = np.zeros(tam)
+            k +=1
