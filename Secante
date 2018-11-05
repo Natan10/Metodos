@@ -1,0 +1,29 @@
+#Método Secante
+
+
+def fc(x):
+    return x**4 - 64
+
+def phi(xo,xi):
+    return xi - (xi*fc(xi) - xo*fc(xi))/(fc(xi) - fc(xo)) 
+
+
+def secante(xo,xi,e,maxiter):
+    if abs(fc(xo)) < e:
+        return xo
+    elif abs(fc(xi)) < e or abs(xi-xo) < e:
+        return xi
+    else:
+        k = 1
+        print("k\t  x\t\t  fx\t\t")
+        while(k<maxiter):
+             x = phi(xo,xi)      
+             print("%d\t%e\t%e" % (k, x, fc(x)))
+             if abs(fc(x)) < e:
+                    return x
+             elif abs(x-xi) < e:
+                    return x
+             else:
+                    xo = xi
+                    xi = x
+                    k += 1
