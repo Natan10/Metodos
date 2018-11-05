@@ -1,0 +1,45 @@
+#Método Gauss-Jacobi
+
+import numpy as np
+
+#calcula norma l-infinito
+def norma(v,x):
+    tam = len(v)
+    norma = []
+    maxD = []
+    for i in range(0,tam):
+        norma.append(abs(v[i]-x[i]))
+        maxD.append(abs(v[i]))
+    return max(norma)/max(maxD)
+  
+ def jacobi(A, b, epsilon, iterMax):
+    tam = len(A)
+    x = np.zeros(tam,dtype = float)
+    v = np.zeros(tam,dtype = float)
+    
+    #inicializar o vetor x 
+    for i in range(tam):
+        x[i] = b[i]/A[i][i]
+    
+    #transformar A em C
+    C = np.zeros((tam,tam),dtype = float)
+    for l in range(tam):
+        for c in range(tam):
+                if l!=c:
+                    C[l][c] = -(A[l][c])/A[l][l]
+    k = 0
+    while True:
+        for i in range(tam):
+            v[i] += b[i]/A[i][i]
+            for j in range(tam):
+                v[i] += x[j]*C[i][j]
+        if(norma(v,x) < epsilon):
+            return v
+            break
+        elif(k >=iterMax):
+            break
+        else:
+            x = v[:]
+            v = np.zeros(tam,dtype = float)
+            k +=1
+   
