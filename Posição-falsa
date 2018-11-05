@@ -1,0 +1,55 @@
+#Método posiçao falsa
+
+from prettytable import PrettyTable
+from timeit import default_timer as timer
+
+def f(a):
+    return (a**2)- 3.4
+
+def funcx(a,b):
+    return (a*f(b) - b*f(a))/(f(b)-f(a))
+
+def Pf(a,b,e,iterMax):
+    fa = f(a)
+    fb = f(b)
+    x = funcx(a,b)
+    fx = f(x)
+    
+    #TESTE PRETTY TABLE
+    p = PrettyTable()
+    
+    
+    if abs(b-a)<e or abs(fx)<e:
+        return x
+    elif fa*fb>0:
+        print("Error 404")
+        
+    else:
+        if abs(fa) < e or abs(fb) < e:
+            return a
+        else:
+            k = 1
+            intervX = abs(b-a)
+            #print("k\t  a\t\t  Fa\t\t  b\t\t  Fb\t\t  x\t\t  Fx\t\tintervX")
+               
+            p.field_names = ["K", "a","Fa","b","Fb","x","Fx"]
+            
+            while k < iterMax:
+                fa  = f(a)
+                fb = f(b)
+                x = funcx(a,b)
+                fx = f(x)
+                #print("%d\t%e\t%e\t%e\t%e\t%e\t%e\t%e" % (k, a, fa, b, fb, x, fx, intervX))
+                p.add_row([k,a,fa,b,fb,x,fx])
+                if abs(fx)<e:
+                    print(p)
+                    return x
+                if fa*fx<0:
+                    b = x
+                else:
+                    a = x
+                intervX = abs(b-a)
+                if intervX < e:
+                    print(p)
+                    return funcx(a,b)
+                k += 1
