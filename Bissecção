@@ -1,0 +1,36 @@
+#Método Bissecçao 
+
+def f(a):
+	return (a**3)- (9*a)+3
+
+
+def Bissec(a,b,e,maxIter):
+	fa = f(a)
+	fb = f(b)
+	intervX = abs(b-a)
+	if fa*fb > 0:
+		return "Error 404"
+                                           
+	else:
+		if intervX < e:
+			return (b+a)/2
+		else:
+			print("k\t  a\t\t  fa\t\t  b\t\t  fb\t\t  x\t\t  fx\t\tintervX")
+			x = (a+b)/2
+			fx = f(x)
+			k=1
+			while k < maxIter :
+				print("-\t%e\t%e\t%e\t%e\t%e\t%e\t%e" % (a, fa, b, fb, x, fx, intervX))
+				if fa*fx<0:
+					b = x
+					fb = f(b)
+				else:
+					a = x
+					fa = f(a)
+				intervX = abs(b-a)
+				x = (b+a)/2
+				if intervX <= e:
+					return x
+				else:	
+					fx = f(x) 
+				k +=1
