@@ -1,0 +1,31 @@
+#Método Newton-Raphson
+
+
+def fc(x):
+    return x**4 - 6*x**3 + 10*x**2 - 6*x + 9
+
+def dfc(x):
+    return 4*x**3 -18*x**2 +20*x -6
+
+def phi(x):
+    return x - fc(x)/dfc(x) 
+
+
+def newtonR(xo,e,maxiter):
+    if abs(fc(xo)) < e:
+        return xo
+    else:
+        k = 1
+        print("k\t  x\t\t  fx\t\t")
+       
+        while(k<maxiter):
+             x = phi(xo)   
+                
+             print("%d\t%e\t%e" % (k, x, fc(x)))
+             if abs(fc(x)) < e:
+                    return x
+             elif abs(x-xo) < e:
+                    return x
+             else:
+                    xo = x
+                    k += 1
