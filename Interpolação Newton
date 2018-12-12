@@ -1,0 +1,49 @@
+import numpy as np
+import math
+from timeit import default_timer as timer
+
+
+'''
+#Interpolação Newton
+'''
+
+def matrizDif(x,y):
+    n = len(x)
+    M= np.zeros([n,n])
+    
+    #Coloca o iterador de ordem 0 na primeira coluna da matriz de ordem n
+    for i in range(0,n):
+        M[i,0] = y[i]
+    
+    #Troca-se a ordem de iteração assim o iterador da linha vai ser o da coluna.
+    for j in range(1,n):
+        for i in range(j,n):
+            M[i,j] = float(M[i,j-1] - M[i-1,j-1])/float(x[i] - x[i-j]) 
+            
+    #b e o vetor com os elementos da diagonal principal da matriz que são os coeficientes das diferenças divididas
+    b = []
+    for i in range(0,n):
+        b.append(M[i,i])
+    
+    return b,M
+    
+    
+# Função para o produto dos (x-x0)(x-x1)....(x-Xn-1)
+def somaTermo(pt,x,n):
+    s = 1
+    if n == 0:
+        return 1
+    for i in range(0,n):
+        s *= (pt - x[i])
+    return s
+    
+    
+#Junção das funçoes para interpolação
+def InterpN(x,b,pt):
+    n = len(b)
+    res = 0
+    for i in range(0,n):
+        k = somaTermo(pt,x,i)
+        res += (k*b[i]) 
+    return res
+    
