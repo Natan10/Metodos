@@ -1,0 +1,19 @@
+import numpy as np
+from timeit import default_timer as timer
+
+'''
+#Interpolação de Lagrange
+'''
+
+#Passar os pontos x e y, o grau n da interpolação e o ponto;
+def lagrange(x,y,n,ponto):
+    L,res  = 1,0
+    for k in range(0,n):
+        for j in range(0,n):
+            if j != k:
+                L *= (ponto - x[j])/(x[k] - x[j])
+        res += (y[k]*L)
+        L = 1
+    return res
+            
+            
