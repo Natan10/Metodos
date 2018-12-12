@@ -1,0 +1,68 @@
+import numpy as np
+from timeit import default_timer as timer
+
+
+'''
+#Interpolação Inversa
+'''
+
+#Newton para polinomios
+def newton(a,x,e,itmax=20):
+    n = len(a)
+    dx = x;
+    for k in range(0,itmax):    
+        b = a[n-1]
+        c = b
+        for i in range(n-1,1,-1):
+            b = a[i-1] + b*x
+            c = b + c*x
+        b = a[0]+b*x
+        #print("x: %e  p(x): %e"%(x,b))
+        if abs(b)< e or abs(dx) <e:
+            return x 
+        else:
+            dx = b/c
+            x -= dx
+       
+# Passar o grau n, os coeficiente a e o valor de x;
+def valorPonto(x,a,n):
+    soma = 0
+    for i in range(0,n+1):
+        soma += (a[i]*x**i)
+    return soma
+
+def vandermonde(xi):
+    matriz = np.zeros([len(xi),len(xi)],dtype="double")
+    for i in range(0,len(xi)):
+        for j in range(0,len(xi)):
+               matriz[i][j] = (xi[j]**i) 
+    matriz = matriz.transpose()
+    return matriz
+    
+#Gauss pivotação
+def pivo(a,b):
+    n = len(a)
+   
+    for k in range(0,n):
+         for i in range(k+1,n):
+            m = a[i][k]/a[k][k]  
+            a[i][k] = 0
+            b[i] = b[i] - m*b[k]
+            for j in range(k+1,n):   
+                a[i][j] = a[i][j] - m*a[k][j] 
+                
+                                      
+    return a,b
+    
+    
+ def sretro2(A,B):
+    n=len(A)
+    x = n*[0] 
+    x[n-1] = B[n-1]/A[n-1][n-1]
+    for i in range(n-1,-1,-1):
+        s = 0
+        for j in range(i+1,n):
+            s += A[i][j]*x[j]
+            x[i] = (B[i] - s)/A[i][i]
+            
+    return(x)
